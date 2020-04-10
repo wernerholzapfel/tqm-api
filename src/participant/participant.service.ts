@@ -3,6 +3,7 @@ import {Participant} from './participant.entity';
 import {Connection, Repository} from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm';
 import {FirebaseService} from '../firebase/firebase/firebase.service';
+import * as admin from 'firebase-admin'
 
 @Injectable()
 export class ParticipantService {
@@ -13,12 +14,12 @@ export class ParticipantService {
                 private readonly firebaseService: FirebaseService) {
     }
 
-    async create(participant: Participant): Promise<Participant> {
+    async create(participant: Participant): Promise<{ token: string }> {
         return await this.participantRepository.save(participant)
             .then(async response => {
                 this.firebaseService.updateParticipantsForQuiz(participant.quiz.id);
-
-                return response;
+                const token = await admin.auth().createCustomToken(response.id);
+                return {token: token}
             })
             .catch((err) => {
                 throw new HttpException({
@@ -29,12 +30,12 @@ export class ParticipantService {
     }
 
     async getQuiz(quizId: string): Promise<Participant[]> {
-        const quizParticipants =  await this.connection
+        const quizParticipants = await this.connection
             .getRepository(Participant)
             .createQueryBuilder('participant')
             .select('participant')
             .addSelect('quiz.beschrijving')
-            .loadRelationCountAndMap('participant.questions','participant.questions')
+            .loadRelationCountAndMap('participant.questions', 'participant.questions')
             .leftJoin('participant.quiz', 'quiz')
             .where('quiz.id = :quizId', {quizId})
             .getMany();

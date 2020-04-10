@@ -1,7 +1,6 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Connection, Repository} from 'typeorm';
-import * as admin from 'firebase-admin';
 import {Question} from './question.entity';
 import {FirebaseService} from '../firebase/firebase/firebase.service';
 
@@ -13,11 +12,13 @@ export class QuestionService {
                 private readonly firebaseService: FirebaseService) {
     }
 
-    async create(question: Question): Promise<Question> {
-        return await this.questionRepository.save(question)
+    async create(question: Question, particpantId: string): Promise<Question> {
+        return await this.questionRepository.save({
+            ...question,
+            owner: {id: particpantId}
+        })
             .then(response => {
-                this.firebaseService.updateParticipantsForQuiz(question.quiz.id)
-
+                this.firebaseService.updateParticipantsForQuiz(question.quiz.id);
                 return response;
             })
             .catch((err) => {
