@@ -13,9 +13,9 @@ admin.initializeApp({
             // eslint-disable-next-line @typescript-eslint/camelcase
             private_key_id: process.env.private_key_id,
             // eslint-disable-next-line @typescript-eslint/camelcase
-            private_key: process.env.private_key,
+            // private_key: process.env.private_key,
             // eslint-disable-next-line @typescript-eslint/camelcase
-            // private_key:  JSON.parse(process.env.private_key),
+            private_key:  JSON.parse(process.env.private_key),
             // eslint-disable-next-line @typescript-eslint/camelcase
             client_email: process.env.client_email,
             // eslint-disable-next-line @typescript-eslint/camelcase
