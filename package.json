@@ -6,15 +6,10 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-
-    "typings": "typings install",
-    "build": "tsc",
-    "dev": "nodemon",
-    "prestart:prod": "tsc",
-    "prestart": "npm run build",
-    "prepublish": "npm run build",
-    "start": "node dist/main.js",
+    "prebuild": "rimraf dist",
+    "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -36,16 +31,14 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
-    "typeorm": "^0.2.24",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.7.4",
-    "@types/jest": "25.1.4"
+    "typeorm": "^0.2.24"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.0",
     "@types/express": "^4.17.3",
+    "@types/jest": "25.1.4",
     "@types/node": "^13.9.1",
     "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^2.23.0",
@@ -58,7 +51,9 @@
     "supertest": "^4.0.2",
     "ts-jest": "25.2.1",
     "ts-loader": "^6.2.1",
-    "tsconfig-paths": "^3.9.0"
+    "ts-node": "^8.6.2",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.7.4"
   },
   "jest": {
     "moduleFileExtensions": [
