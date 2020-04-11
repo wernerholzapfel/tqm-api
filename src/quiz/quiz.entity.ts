@@ -1,12 +1,4 @@
-import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    ManyToOne,
-    OneToMany,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn
-} from 'typeorm';
+import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
 import {Participant} from '../participant/participant.entity';
 import {Question} from '../question/question.entity';
 
@@ -21,6 +13,9 @@ export class Quiz {
 
     @Column()
     aantalVragen: number;
+
+    @Column({default: false})
+    isComplete: boolean;
 
     @OneToMany(type => Participant, Participant => Participant.quiz)
     participant: Participant[];

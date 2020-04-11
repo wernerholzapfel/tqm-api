@@ -12,6 +12,11 @@ export class QuestionService {
                 private readonly firebaseService: FirebaseService) {
     }
 
+    // todo create getNextQuestion {previous: string}
+    // set previous isAnswered
+    // set active question firebase
+    // update stand
+
     async create(question: Question, particpantId: string): Promise<Question> {
         return await this.questionRepository.save({
             ...question,

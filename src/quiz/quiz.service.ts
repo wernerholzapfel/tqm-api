@@ -27,4 +27,21 @@ export class QuizService {
                 }, HttpStatus.BAD_REQUEST);
             });
     }
+
+    async update(quiz: Quiz): Promise<Quiz> {
+        return await this.quizRepository.save(quiz)
+            .then(response => {
+                const db = admin.database();
+                const docRef = db.ref(`${response.id}`);
+                docRef.set(response);
+
+                return response;
+            })
+            .catch((err) => {
+                throw new HttpException({
+                    message: err.message,
+                    statusCode: HttpStatus.BAD_REQUEST,
+                }, HttpStatus.BAD_REQUEST);
+            });
+    }
 }

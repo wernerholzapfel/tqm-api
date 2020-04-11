@@ -7,6 +7,11 @@ import * as admin from 'firebase-admin';
 @Injectable()
 export class FirebaseService {
 
+
+    // todo update metadata
+    // todo update active question
+    // todo update stand
+
     constructor(private readonly connection: Connection,
                  @InjectRepository(Participant)
                  private readonly participantRepository: Repository<Participant>) {}
