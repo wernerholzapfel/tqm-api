@@ -1,6 +1,7 @@
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
 import * as admin from 'firebase-admin';
+import {ValidationPipe} from '@nestjs/common';
 
 
 admin.initializeApp({
@@ -47,6 +48,7 @@ const allowCrossDomain = (req, res, next) => {
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
+    app.useGlobalPipes(new ValidationPipe());
     app.use(allowCrossDomain);
     await app.listen(process.env.PORT || 3000)
 

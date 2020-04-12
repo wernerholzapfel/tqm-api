@@ -1,6 +1,7 @@
 import {Body, Controller, Post, Put, Req} from '@nestjs/common';
 import {QuizService} from './quiz.service';
 import {Quiz} from './quiz.entity';
+import {CreateQuizDto} from './create-quiz.dto';
 
 @Controller('quiz')
 export class QuizController {
@@ -13,7 +14,7 @@ export class QuizController {
     }
 
     @Put()
-    async update(@Req() req, @Body() quiz: Quiz) {
+    async update(@Req() req, @Body() quiz: CreateQuizDto) {
         return await this.quizService.update(quiz)
     }
 }

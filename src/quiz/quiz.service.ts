@@ -3,6 +3,7 @@ import {InjectRepository} from '@nestjs/typeorm';
 import {Connection, Repository} from 'typeorm';
 import {Quiz} from './quiz.entity';
 import * as admin from 'firebase-admin';
+import {CreateQuizDto} from './create-quiz.dto';
 
 @Injectable()
 export class QuizService {
@@ -28,7 +29,7 @@ export class QuizService {
             });
     }
 
-    async update(quiz: Quiz): Promise<Quiz> {
+    async update(quiz: CreateQuizDto): Promise<Quiz> {
         return await this.quizRepository.save(quiz)
             .then(response => {
                 const db = admin.database();
