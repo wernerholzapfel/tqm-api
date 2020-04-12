@@ -5,8 +5,9 @@ import {CreateQuizDto} from './create-quiz.dto';
 
 @Controller('quiz')
 export class QuizController {
-    constructor(private readonly quizService: QuizService,
-                private readonly logger = new Logger('QuizController', true)) {
+    private readonly logger = new Logger('QuizController', true);
+
+    constructor(private readonly quizService: QuizService) {
     }
 
     @Post()

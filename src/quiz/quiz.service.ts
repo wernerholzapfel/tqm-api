@@ -7,10 +7,11 @@ import {CreateQuizDto} from './create-quiz.dto';
 
 @Injectable()
 export class QuizService {
+    private readonly logger = new Logger('QuizService', true)
+
     constructor(private readonly connection: Connection,
                 @InjectRepository(Quiz)
-                private readonly quizRepository: Repository<Quiz>,
-                private readonly logger = new Logger('QuizService', true)) {
+                private readonly quizRepository: Repository<Quiz>) {
     }
 
     async create(quiz: CreateQuizDto): Promise<Quiz>{
