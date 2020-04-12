@@ -12,7 +12,7 @@ export class QuizService {
                 private readonly quizRepository: Repository<Quiz>) {
     }
 
-    async create(quiz: Quiz): Promise<Quiz> {
+    async create(quiz: CreateQuizDto): Promise<Quiz>{
         return await this.quizRepository.save(quiz)
             .then(response => {
                 const db = admin.database();
@@ -29,7 +29,7 @@ export class QuizService {
             });
     }
 
-    async update(quiz: CreateQuizDto): Promise<Quiz> {
+    async update(quiz: Quiz): Promise<Quiz> {
         return await this.quizRepository.save(quiz)
             .then(response => {
                 const db = admin.database();

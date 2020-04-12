@@ -9,12 +9,12 @@ export class QuizController {
     }
 
     @Post()
-    async create(@Body() quiz: Quiz) {
+    async create(@Body() quiz: CreateQuizDto) {
         return await this.quizService.create(quiz);
     }
 
     @Put()
-    async update(@Req() req, @Body() quiz: CreateQuizDto) {
+    async update(@Req() req, @Body() quiz: Quiz) {
         return await this.quizService.update(quiz)
     }
 }
