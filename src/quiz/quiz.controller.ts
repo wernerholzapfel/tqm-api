@@ -1,15 +1,17 @@
-import {Body, Controller, Post, Put, Req} from '@nestjs/common';
+import {Body, Controller, Logger, Post, Put, Req} from '@nestjs/common';
 import {QuizService} from './quiz.service';
 import {Quiz} from './quiz.entity';
 import {CreateQuizDto} from './create-quiz.dto';
 
 @Controller('quiz')
 export class QuizController {
-    constructor(private readonly quizService: QuizService) {
+    constructor(private readonly quizService: QuizService,
+                private readonly logger = new Logger('QuizController', true)) {
     }
 
     @Post()
     async create(@Body() quiz: CreateQuizDto) {
+        this.logger.log(quiz);
         return await this.quizService.create(quiz);
     }
 

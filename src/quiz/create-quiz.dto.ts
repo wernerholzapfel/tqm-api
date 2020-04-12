@@ -1,8 +1,9 @@
-import {IsString} from 'class-validator';
+import {IsNumber, IsString} from 'class-validator';
 
 export class CreateQuizDto {
     @IsString()
     beschrijving: string;
-    @IsString()
+
+    @IsNumber()
     aantalVragen: number;
 }

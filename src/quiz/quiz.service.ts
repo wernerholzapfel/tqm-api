@@ -1,4 +1,4 @@
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable, Logger} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Connection, Repository} from 'typeorm';
 import {Quiz} from './quiz.entity';
@@ -9,10 +9,12 @@ import {CreateQuizDto} from './create-quiz.dto';
 export class QuizService {
     constructor(private readonly connection: Connection,
                 @InjectRepository(Quiz)
-                private readonly quizRepository: Repository<Quiz>) {
+                private readonly quizRepository: Repository<Quiz>,
+                private readonly logger = new Logger('QuizService', true)) {
     }
 
     async create(quiz: CreateQuizDto): Promise<Quiz>{
+        this.logger.log(quiz);
         return await this.quizRepository.save(quiz)
             .then(response => {
                 const db = admin.database();
