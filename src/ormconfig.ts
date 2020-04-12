@@ -13,6 +13,6 @@ export const ormconfig: TypeOrmModuleOptions = {
         rejectUnauthorized: false,
     },
     entities: [Participant, Quiz, Question],
-    logging: false,
-    synchronize: true, // DEV only, do not use on PROD!
+    logging: true,
+    synchronize: false, // DEV only, do not use on PROD!
 };
