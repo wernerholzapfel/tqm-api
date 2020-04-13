@@ -22,7 +22,7 @@ export class Participant {
     @Column({default: false})
     isAdmin: boolean;
 
-    @ManyToOne(type => Quiz, quiz => quiz.participant, {nullable: false})
+    @ManyToOne(type => Quiz, quiz => quiz.participants, {nullable: false})
     quiz: Quiz;
 
     @OneToMany(type => Question, question => question.owner)

@@ -3,12 +3,12 @@ import {Participant} from '../../participant/participant.entity';
 import {Connection, Repository} from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm';
 import * as admin from 'firebase-admin';
+import {Quiz} from '../../quiz/quiz.entity';
 
 @Injectable()
 export class FirebaseService {
 
 
-    // todo update metadata
     // todo update active question
     // todo update stand
 
@@ -16,20 +16,18 @@ export class FirebaseService {
                  @InjectRepository(Participant)
                  private readonly participantRepository: Repository<Participant>) {}
 
-    async updateParticipantsForQuiz(quizId: string) {
+    async updateQuizMetaData(quizId: string) {
 
         const db = admin.database();
-        const docRef = db.ref(`${quizId}/participants`);
+        const docRef = db.ref(`${quizId}/metadata`);
 
-        const quizParticipants =  await this.connection
-            .getRepository(Participant)
-            .createQueryBuilder('participant')
-            .select('participant')
-            .addSelect('quiz.beschrijving')
-            .loadRelationCountAndMap('participant.questions','participant.questions')
-            .leftJoin('participant.quiz', 'quiz')
+        const quizParticipants = await this.connection
+            .getRepository(Quiz)
+            .createQueryBuilder('quiz')
+            .leftJoinAndSelect('quiz.participants', 'participants')
+            .loadRelationCountAndMap('participants.questions', 'participants.questions')
             .where('quiz.id = :quizId', {quizId})
-            .getMany();
+            .getOne();
 
         docRef.set(quizParticipants);
 

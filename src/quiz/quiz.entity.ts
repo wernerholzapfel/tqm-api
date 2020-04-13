@@ -18,7 +18,7 @@ export class Quiz {
     isComplete: boolean;
 
     @OneToMany(type => Participant, Participant => Participant.quiz)
-    participant: Participant[];
+    participants: Participant[];
 
     @OneToMany(type => Question, question => question.owner)
     questions: Question[];

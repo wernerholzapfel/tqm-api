@@ -23,7 +23,7 @@ export class QuestionService {
             owner: {id: particpantId}
         })
             .then(response => {
-                this.firebaseService.updateParticipantsForQuiz(question.quiz.id);
+                this.firebaseService.updateQuizMetaData(question.quiz.id);
                 return response;
             })
             .catch((err) => {
