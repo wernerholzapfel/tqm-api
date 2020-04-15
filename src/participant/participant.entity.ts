@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import {Quiz} from '../quiz/quiz.entity';
 import {Question} from '../question/question.entity';
+import {Answer} from '../answer/answer.entity';
 
 @Entity()
 export class Participant {
@@ -27,6 +28,9 @@ export class Participant {
 
     @OneToMany(type => Question, question => question.owner)
     questions: Question[];
+
+    @OneToMany(type => Answer, answer => answer.participant)
+    answers: Answer[];
 
     @UpdateDateColumn()
     updatedDate: Date;

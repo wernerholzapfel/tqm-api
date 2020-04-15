@@ -1,6 +1,6 @@
 import {Body, Controller, Get, HttpException, HttpStatus, Post} from '@nestjs/common';
 import {ParticipantService} from './participant.service';
-import {Participant} from './participant.entity';
+import {Participant} from '../participant/participant.entity';
 
 @Controller('participant')
 export class ParticipantController {

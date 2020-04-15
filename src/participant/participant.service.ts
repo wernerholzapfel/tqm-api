@@ -1,5 +1,5 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
-import {Participant} from './participant.entity';
+import {Participant} from '../participant/participant.entity';
 import {Connection, Repository} from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm';
 import {FirebaseService} from '../firebase/firebase/firebase.service';

@@ -7,8 +7,9 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {Participant} from '../participant/participant.entity';
 import {Quiz} from '../quiz/quiz.entity';
+import {Participant} from '../participant/participant.entity';
+import {Answer} from '../answer/answer.entity';
 
 @Entity()
 export class Question {
@@ -31,11 +32,17 @@ export class Question {
     @Column({nullable: false})
     d: string;
 
+    @Column({default: false})
+    isAnswered: boolean;
+
     @ManyToOne(type => Participant, participant => participant.questions, {nullable: false})
     owner: Participant;
 
     @ManyToOne(type => Quiz, quiz => quiz.questions, {nullable: false})
     quiz: Quiz;
+
+    @OneToMany(type => Answer, answer => answer.question)
+    answers: Answer[];
 
     @UpdateDateColumn()
     updatedDate: Date;

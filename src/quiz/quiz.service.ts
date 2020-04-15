@@ -6,6 +6,8 @@ import * as admin from 'firebase-admin';
 import {CreateQuizDto} from './create-quiz.dto';
 import {Participant} from '../participant/participant.entity';
 import {FirebaseService} from '../firebase/firebase/firebase.service';
+import {StartQuizDto} from './start-quiz.dto';
+import {Question} from '../question/question.entity';
 
 @Injectable()
 export class QuizService {
@@ -27,10 +29,6 @@ export class QuizService {
                 isAdmin: true
             })
                 .then(async response => {
-                    const db = admin.database();
-                    const docRef = db.ref(`${response.id}`);
-                    docRef.set(response);
-
                     this.firebaseService.updateQuizMetaData(storedQuiz.id);
                     const token = await admin.auth().createCustomToken(response.id, {admin: true});
                     return {quiz: storedQuiz, token: token}
@@ -44,13 +42,14 @@ export class QuizService {
         })
     }
 
-    async update(quiz: Quiz): Promise<Quiz> {
+    async setQuizCompleteness(quiz: StartQuizDto): Promise<Quiz> {
         return await this.quizRepository.save(quiz)
-            .then(response => {
-                const db = admin.database();
-                const docRef = db.ref(`${response.id}`);
-                docRef.set(response);
+            .then(async response => {
+               this.firebaseService.updateQuizMetaData(quiz.id);
 
+                if (response.isComplete) {
+                    this.firebaseService.setNewQuestion(quiz.id);
+                }
                 return response;
             })
             .catch((err) => {

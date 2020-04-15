@@ -8,6 +8,7 @@ import {ParticipantModule} from './participant/participant.module';
 import {QuestionModule} from './question/question.module';
 import {FirebaseModule} from './firebase/firebase/firebase.module';
 import {AddFireBaseUserToRequest} from './middleware/authentication.middleware';
+import { AnswerModule } from './answer/answer.module';
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import {AddFireBaseUserToRequest} from './middleware/authentication.middleware';
         ParticipantModule,
         QuestionModule,
         FirebaseModule,
+        AnswerModule,
     ],
     controllers: [AppController],
     providers: [AppService],
@@ -24,7 +26,8 @@ export class AppModule {
 
     configure(consumer: MiddlewareConsumer): void {
         consumer.apply(AddFireBaseUserToRequest).forRoutes(
-            {path: '/question', method: RequestMethod.POST}
+            {path: '/question', method: RequestMethod.POST},
+            {path: '/answer', method: RequestMethod.POST},
             )
     };
 }
