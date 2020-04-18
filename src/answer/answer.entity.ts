@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import {Question} from '../question/question.entity';
 import {Participant} from '../participant/participant.entity';
+import {Quiz} from '../quiz/quiz.entity';
 
 @Entity()
 @Unique(['participant', 'question'])
@@ -26,6 +27,9 @@ export class Answer {
 
     @ManyToOne(type => Question, question => question.answers, {nullable: false})
     question: Question;
+
+    @ManyToOne(type => Quiz, quiz => quiz.answers, {nullable: false})
+    quiz: Quiz;
 
     @UpdateDateColumn()
     updatedDate: Date;

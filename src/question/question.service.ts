@@ -57,6 +57,7 @@ export class QuestionService {
             .execute();
 
         await this.firebaseService.setNewQuestion(question.quizId);
+        await this.firebaseService.updateTable(question.quizId);
         return updateResult;
     }
 }
