@@ -7,6 +7,7 @@ import * as admin from 'firebase-admin';
 import {Quiz} from '../../quiz/quiz.entity';
 import {Question} from '../../question/question.entity';
 import {Answer} from '../../answer/answer.entity';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class FirebaseService {
@@ -72,13 +73,14 @@ export class FirebaseService {
         questionRef.set(question)
     }
 
-    async updateTable(quizId: string) {
+    async updateTable(quizId: string) : Promise<any[]> {
         const questions = await this.connection.getRepository(Question)
             .createQueryBuilder('question')
             .leftJoin('question.quiz', 'quiz')
             .leftJoinAndSelect('question.owner', 'owner')
             .leftJoinAndSelect('question.answers', 'answers')
             .leftJoinAndSelect('answers.participant', 'participant')
+            .leftJoinAndSelect('answers.question', 'answerQuestions')
             .where('quiz.id = :quizId', {quizId})
             .getMany();
 

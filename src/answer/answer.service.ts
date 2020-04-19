@@ -38,53 +38,7 @@ export class AnswerService {
 
     async getStand(quizId: string): Promise<any> {
         // todo remove this
-        this.firebaseService.updateTable(quizId);
-
-        const questions = await this.connection.getRepository(Question)
-            .createQueryBuilder('question')
-            .leftJoin('question.quiz', 'quiz')
-            .leftJoinAndSelect('question.owner', 'owner')
-            .leftJoinAndSelect('question.answers', 'answers')
-            .leftJoinAndSelect('answers.participant', 'participant')
-            .where('quiz.id = :quizId', {quizId})
-            .getMany();
-
-
-        const quiz = await this.connection.getRepository(Quiz)
-            .createQueryBuilder('quiz')
-            .leftJoinAndSelect('quiz.participants', 'participants')
-            .where('quiz.id = :quizId', {quizId})
-            .getOne();
-
-
-        const questionsWithScore = await questions.map(question => {
-            return {
-                ...question,
-                answers: question.answers.map(answer => {
-                    return {
-                        ...answer,
-                        score: this.firebaseService.determineScore(answer, question, quiz)
-                    }
-                })
-            }
-        });
-
-        const participantsWithTheirAnswers = quiz.participants.map(participant => {
-            return {
-                ...participant,
-                answers: this.firebaseService.getAnswers(participant, questionsWithScore)
-            }
-        });
-
-        const table = participantsWithTheirAnswers.map(participant => {
-            return {
-                ...participant,
-                totaalScore: this.firebaseService.getTotaalScore(participant.answers)
-            }
-        });
-
-
-        return table;
+        return this.firebaseService.updateTable(quizId);
     }
 
 
