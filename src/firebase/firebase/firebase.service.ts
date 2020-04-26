@@ -50,6 +50,7 @@ export class FirebaseService {
             .loadRelationCountAndMap('question.answers', 'question.answers')
             .where('question.isAnswered = :isAnswered', {isAnswered: false})
             .andWhere('quiz.id = :quizId', {quizId})
+            .orderBy('Random()')
             .getOne();
 
         const db = admin.database();
@@ -133,10 +134,10 @@ export class FirebaseService {
         return answers
     }
 
-    getTotaalScore(answers: Answer[]) {
+    getTotaalScore(answers: {Answer, score?: number}[]) {
         return answers.reduce((a, b) => {
             // @ts-ignore
-            return a + b.score
+            return b ? a + b.score : a
         }, 0);
     }
 
@@ -144,9 +145,10 @@ export class FirebaseService {
         if (question.owner.id === answer.participant.id) {
             return this.determineOwnerScore(question, quiz)
         } else {
-            const ownerAnswer = question.answers.find(answer => {
+            const owner = question.answers.find(answer => {
                 return question.owner.id === answer.participant.id
-            }).answer;
+            });
+            const ownerAnswer = owner ? owner.answer : null;
             if (ownerAnswer === answer.answer) {
                 return 3
             } else {

@@ -9,8 +9,8 @@ export class QuestionController {
     }
 
     @Get()
-    async get() {
-        return await this.questionService.get('2fa45d7d-a7cd-4142-b44f-017eff5c5b12')
+    async get(@Req() req) {
+        return await this.questionService.get(req.user.uid)
     }
 
     @Post()

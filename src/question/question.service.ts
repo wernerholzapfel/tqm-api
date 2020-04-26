@@ -35,17 +35,13 @@ export class QuestionService {
             });
     }
 
-    async get(quizId): Promise<Question> {
+    async get(participantId): Promise<Question[]> {
         return await this.connection.getRepository(Question)
             .createQueryBuilder('question')
             .leftJoin('question.quiz', 'quiz')
-            .leftJoinAndSelect('question.answers', 'answers')
-            .leftJoinAndSelect('answers.participant', 'participant')
-            .leftJoinAndSelect('question.owner', 'owner')
-            .loadRelationCountAndMap('question.answers', 'question.answers')
-            .where('question.isAnswered = :isAnswered', {isAnswered: false})
-            .andWhere('quiz.id = :quizId', {quizId})
-            .getOne();
+            .leftJoin('question.owner', 'owner')
+            .where('owner.id = :participantId', {participantId})
+            .getMany();
     }
 
     // todo check if admin

@@ -27,6 +27,7 @@ export class AppModule {
     configure(consumer: MiddlewareConsumer): void {
         consumer.apply(AddFireBaseUserToRequest).forRoutes(
             {path: '/question', method: RequestMethod.POST},
+            {path: '/question', method: RequestMethod.GET},
             {path: '/answer', method: RequestMethod.POST},
             )
     };
