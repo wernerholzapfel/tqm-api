@@ -18,6 +18,6 @@ export class AnswerController {
 
     @Get()
     async getStand(@Req() req, @Body() body: any) {
-        return await this.answerService.getStand('d6499910-9a34-471a-b8f2-cfbb356f6c1b')
+        return await this.answerService.getStand('00fc775a-daf7-4e38-b0d1-e6486a415d0d')
     }
 }

@@ -74,7 +74,13 @@ export class FirebaseService {
         questionRef.set(question)
     }
 
-    async updateTable(quizId: string) : Promise<any[]> {
+    async updateTable(quizId: string): Promise<any[]> {
+        const model = {
+            quiz: {},
+            table: {position: Number, score: Number, participant: Participant},
+            participants: {participant: Participant, OwnQuestions: Question, OtherQuestions: Question}
+        }
+
         const questions = await this.connection.getRepository(Question)
             .createQueryBuilder('question')
             .leftJoin('question.quiz', 'quiz')
@@ -119,9 +125,9 @@ export class FirebaseService {
             }
         });
 
-        const db = admin.database();
-        const tableRef = db.ref(`${quizId}/table`);
-        tableRef.set(table);
+        // const db = admin.database();
+        // const tableRef = db.ref(`${quizId}/table`);
+        // tableRef.set(table);
 
         return table
     }
@@ -129,12 +135,13 @@ export class FirebaseService {
     getAnswers(participant, questions: Question[]) {
         const answers = [];
         questions.forEach(q => {
-            answers.push(q.answers.find(a => a.participant.id === participant.id))
+            answers.push({answer: q.answers.find(a => a.participant.id === participant.id), owner: q.owner})
         });
+        this.logger.log(answers[0]);
         return answers
     }
 
-    getTotaalScore(answers: {Answer, score?: number}[]) {
+    getTotaalScore(answers: { Answer, score?: number }[]) {
         return answers.reduce((a, b) => {
             // @ts-ignore
             return b ? a + b.score : a
